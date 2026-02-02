@@ -71,6 +71,19 @@ function Main() {
 		}
 	}, [newTodoInputFieldId]);
 
+	const showSnackbarMessage = useCallback(
+		(message: string) => {
+			setSnackbarMessage(message);
+			setIsSnackbarOpen(true);
+		},
+		[]
+	);
+
+	const showCorruptedLSTodosAlertDialog = useCallback((corruptedLSTodoKeys: string[]) => {
+		setCorruptedLSTodoKeys(corruptedLSTodoKeys);
+		setIsCorruptedLSTodosAlertDialogOpen(true);
+	}, []);
+
 	useEffect(() => {
 		const functionSignature = "App.tsx@component mounted useEffect()";
 
@@ -103,10 +116,9 @@ function Main() {
 		}
 
 		if (!isLocalStorageAvailable) {
-			setSnackbarMessage(
+			showSnackbarMessage(
 				"Warning: localStorage looks to be disabled in your browser. Your todos will not be saved between sessions."
 			);
-			setIsSnackbarOpen(true);
 
 			todoStoreDispatch({
 				type: TTodoStoreActionTypes.SET_LOCAL_STORAGE_AVAILABILITY,
@@ -138,10 +150,12 @@ function Main() {
 					setCorruptedLSTodoKeys([
 						...todosFromLocalStorageResponse.invalidTodoKeys,
 					]);
-					setIsCorruptedLSTodosAlertDialogOpen(true);
+					showCorruptedLSTodosAlertDialog([
+						...todosFromLocalStorageResponse.invalidTodoKeys,
+					]);
 				}
 
-				setSnackbarMessage(
+				showSnackbarMessage(
 					`Restored ${
 						todosFromLocalStorageResponse.validTodos.length
 					} todo${
@@ -150,10 +164,9 @@ function Main() {
 							: "s"
 					} from localStorage.`
 				);
-				setIsSnackbarOpen(true);
 			}
 		}
-	}, []);
+	}, [showSnackbarMessage, showCorruptedLSTodosAlertDialog]);
 
 	useEffect(() => {
 		const functionSignature = "App.tsx@keyDownHandler useEffect()";
