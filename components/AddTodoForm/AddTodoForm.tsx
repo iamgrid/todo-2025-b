@@ -4,7 +4,7 @@ import {
 	MAX_TODO_TITLE_LENGTH,
 	TODO_TITLE_LENGTH_ERROR_MESSAGE,
 } from "../../lib/helpers";
-import { useDoesUserHaveAProperMouse } from "../shared/useDoesUserHaveAProperMouse";
+import { useDoesUserHaveAProperMouse } from "../../lib/useDoesUserHaveAProperMouse";
 import { Textarea } from "../ui/textarea";
 
 interface TAddTodoFormProps {
@@ -13,13 +13,15 @@ interface TAddTodoFormProps {
 	focusNewTodoInputField(): void;
 }
 
-function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputField }: TAddTodoFormProps) {
+function AddTodoForm({
+	handleAddTodo,
+	newTodoInputFieldId,
+	focusNewTodoInputField,
+}: TAddTodoFormProps) {
 	const formId = useId();
 	const [todoInputIsValid, setTodoInputIsValid] = useState<boolean>(true);
-	const [
-		todoInputValueIsOverMaxLengthBy,
-		setTodoInputValueIsOverMaxLengthBy,
-	] = useState<number>(0);
+	const [todoInputValueIsOverMaxLengthBy, setTodoInputValueIsOverMaxLengthBy] =
+		useState<number>(0);
 	const doesUserHaveAProperMouse = useDoesUserHaveAProperMouse();
 
 	function handleTodoInputChange(newValue: string) {
@@ -31,7 +33,7 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 		} else if (trimmedValue.length > MAX_TODO_TITLE_LENGTH) {
 			setTodoInputIsValid(false);
 			setTodoInputValueIsOverMaxLengthBy(
-				trimmedValue.length - MAX_TODO_TITLE_LENGTH
+				trimmedValue.length - MAX_TODO_TITLE_LENGTH,
 			);
 			return;
 		} else {
@@ -41,7 +43,7 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 	}
 
 	function handleNewTodoFormSubmission(
-		event: React.FormEvent<HTMLFormElement> | null = null
+		event: React.FormEvent<HTMLFormElement> | null = null,
 	) {
 		const functionSignature = "App.tsx@handleNewTodoFormSubmission()";
 
@@ -51,9 +53,7 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 			event.preventDefault();
 			formElement = event.currentTarget;
 		} else {
-			formElement = document.getElementById(
-				formId
-			) as HTMLFormElement | null;
+			formElement = document.getElementById(formId) as HTMLFormElement | null;
 		}
 
 		if (!todoInputIsValid) {
@@ -61,10 +61,7 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 		}
 
 		if (formElement === null) {
-			console.error(
-				functionSignature,
-				"Could not find form element in DOM!"
-			);
+			console.error(functionSignature, "Could not find form element in DOM!");
 			return;
 		}
 
@@ -81,19 +78,17 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 			console.error(
 				functionSignature,
 				`Form data does not have expected field with ID '${newTodoInputFieldId}'!`,
-				formData.entries()
+				formData.entries(),
 			);
 			return;
 		}
 
-		const newTodoText = (
-			formData.get(newTodoInputFieldId) as string
-		).trim();
+		const newTodoText = (formData.get(newTodoInputFieldId) as string).trim();
 
 		if (newTodoText.length === 0) {
 			console.warn(
 				functionSignature,
-				"New todo text is empty, returning early..."
+				"New todo text is empty, returning early...",
 			);
 			focusNewTodoInputField();
 			return;
@@ -133,7 +128,7 @@ function AddTodoForm({ handleAddTodo, newTodoInputFieldId, focusNewTodoInputFiel
 				}}
 				onBlur={() => {
 					const newTodoInputField = document.getElementById(
-						newTodoInputFieldId
+						newTodoInputFieldId,
 					) as HTMLInputElement | null;
 					if (newTodoInputField !== null) {
 						if (newTodoInputField.value.trim().length === 0) {

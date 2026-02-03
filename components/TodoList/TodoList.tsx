@@ -1,4 +1,4 @@
-import type { TTodo } from "../../app/todoStore";
+import type { TTodo } from "../../app/useTodoStore";
 
 export interface TTodoListProps {
 	todos: TTodo[];
@@ -11,7 +11,7 @@ function TodoList({ todos }: TTodoListProps) {
 				<li key={todo.id}>{todo.text}</li>
 			))}
 		</ul>
-	)
+	);
 }
 
 export default TodoList;
