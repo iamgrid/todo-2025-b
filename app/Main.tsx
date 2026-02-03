@@ -83,14 +83,16 @@ function Main() {
 	}
 
 	return (
-		<>
-			<AddTodoForm
-				handleAddTodo={handleAddTodo}
-				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={focusNewTodoInputField}
-			/>
-			<TodoList todos={todoStoreTodos} />
-		</>
+		<div className="bg-background w-full">
+			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 sm:p-6 lg:p-12">
+				<AddTodoForm
+					handleAddTodo={handleAddTodo}
+					newTodoInputFieldId={newTodoInputFieldId}
+					focusNewTodoInputField={focusNewTodoInputField}
+				/>
+				<TodoList todos={todoStoreTodos} />
+			</div>
+		</div>
 	);
 }
 
