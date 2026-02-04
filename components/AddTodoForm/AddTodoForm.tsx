@@ -107,16 +107,19 @@ function AddTodoForm({
 	return (
 		<form
 			id={formId}
-			className="new-todo-form"
+			className="new-todo-form mb-3"
 			onSubmit={(event) => handleNewTodoFormSubmission(event)}
 			noValidate
 		>
 			<Textarea
 				id={newTodoInputFieldId}
 				name={newTodoInputFieldId}
+				className="resize-none md:text-base text-zinc-900 dark:text-zinc-300 pb-[6px]"
 				placeholder="What needs to be done?"
 				autoFocus
 				onChange={(event) => handleTodoInputChange(event.target.value)}
+				rows={1}
+				style={{ minHeight: "unset", maxHeight: "5.4em" }}
 				// minRows={1}
 				// maxRows={4}
 				aria-invalid={!todoInputIsValid}
@@ -139,6 +142,15 @@ function AddTodoForm({
 					}
 				}}
 			/>
+			<div
+				className={`text-sm pl-[5px] mt-1 ${!todoInputIsValid ? "text-red-500 dark:text-red-400/80" : "text-zinc-500 dark:text-zinc-400"}`}
+			>
+				{!todoInputIsValid
+					? `${TODO_TITLE_LENGTH_ERROR_MESSAGE} (You are over by ${todoInputValueIsOverMaxLengthBy} characters.)`
+					: doesUserHaveAProperMouse
+						? "Hit [Ctrl+Enter] to focus this field."
+						: null}
+			</div>
 		</form>
 	);
 }
