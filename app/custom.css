@@ -1,0 +1,5 @@
+@layer own {
+  .todo-list-item:hover span[role=checkbox] {
+	border-color: gray;
+  }
+}

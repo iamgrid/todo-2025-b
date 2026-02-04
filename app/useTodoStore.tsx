@@ -55,9 +55,26 @@ export default function useTodoStore() {
 		setTodos([...todoStoreTodos, newTodo]);
 	}
 
+	function toggleTodoCompletion(todoId: number, newStatus: boolean) {
+		const updatedTodos = todoStoreTodos.map((todo) => {
+			if (todo.id === todoId) {
+				const nowISOString = new Date().toISOString();
+				return {
+					...todo,
+					isCompleted: newStatus,
+					completedAt: newStatus ? nowISOString : null,
+				};
+			}
+			return todo;
+		});
+
+		setTodos(updatedTodos);
+	}
+
 	return {
 		isLocalStorageWorking,
 		todoStoreTodos,
 		addTodo,
+		toggleTodoCompletion,
 	};
 }

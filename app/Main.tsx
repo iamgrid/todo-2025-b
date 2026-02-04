@@ -7,7 +7,7 @@ import TodoList from "../components/TodoList/TodoList";
 
 function Main() {
 	const newTodoInputFieldId = useId();
-	const { todoStoreTodos, addTodo } = useTodoStore();
+	const { todoStoreTodos, addTodo, toggleTodoCompletion } = useTodoStore();
 
 	const [isCompleteAllAlertDialogOpen, setIsCompleteAllAlertDialogOpen] =
 		useState<boolean>(false);
@@ -82,6 +82,12 @@ function Main() {
 		addTodo(newTodoText);
 	}
 
+	function handleToggleTodoCompletion(todoId: number, newStatus: boolean) {
+		const functionSignature = "App.tsx@handleToggleTodoCompletion()";
+		console.log(functionSignature, `Toggling todo completion for ID ${todoId}`);
+		toggleTodoCompletion(todoId, newStatus);
+	}
+
 	return (
 		<div className="bg-background w-full">
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 sm:p-6 lg:p-12">
@@ -90,7 +96,10 @@ function Main() {
 					newTodoInputFieldId={newTodoInputFieldId}
 					focusNewTodoInputField={focusNewTodoInputField}
 				/>
-				<TodoList todos={todoStoreTodos} />
+				<TodoList
+					todos={todoStoreTodos}
+					handleToggleTodoCompletion={handleToggleTodoCompletion}
+				/>
 			</div>
 		</div>
 	);
