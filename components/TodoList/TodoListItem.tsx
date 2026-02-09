@@ -17,7 +17,7 @@ export interface TTodoListItemProps {
 	listItemIndex: number;
 	handleToggleTodoCompletion(todoId: number, newStatus: boolean): void;
 	handleUpdateTodoText(todoId: number, newText: string): void;
-	handleDeleteTodo(todoId: number): void;
+	handleDeleteTodoProper(todoId: number): void;
 	triggerFriendlyDateRerender: number;
 }
 
@@ -26,7 +26,7 @@ function TodoListItem({
 	listItemIndex,
 	handleToggleTodoCompletion,
 	handleUpdateTodoText,
-	handleDeleteTodo,
+	handleDeleteTodoProper,
 	triggerFriendlyDateRerender,
 }: TTodoListItemProps) {
 	const checkboxId = useId();
@@ -40,7 +40,7 @@ function TodoListItem({
 	}
 
 	function onDeleteButtonClick() {
-		handleDeleteTodo(todo.id);
+		handleDeleteTodoProper(todo.id);
 	}
 
 	function renderSecondaryText() {
@@ -124,13 +124,9 @@ function TodoListItem({
 					{renderSecondaryText()}
 				</div>
 			</div>
-			<ButtonGroup
-				// className="ml-auto opacity-0 transition-opacity group-hover/button:opacity-100"
-				onClick={(event) => event.stopPropagation()}
-			>
+			<ButtonGroup onClick={(event) => event.stopPropagation()}>
 				<Tooltip>
 					<TooltipTrigger
-						tabIndex={-1}
 						render={
 							<Button
 								className=""
@@ -148,7 +144,6 @@ function TodoListItem({
 				</Tooltip>
 				<Tooltip>
 					<TooltipTrigger
-						tabIndex={-1}
 						render={
 							<Button
 								className=""
