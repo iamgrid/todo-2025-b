@@ -7,7 +7,13 @@ import TodoList from "../components/TodoList/TodoList";
 
 function Main() {
 	const newTodoInputFieldId = useId();
-	const { todoStoreTodos, addTodo, toggleTodoCompletion } = useTodoStore();
+	const {
+		todoStoreTodos,
+		addTodo,
+		toggleTodoCompletion,
+		updateTodoText,
+		deleteTodo,
+	} = useTodoStore();
 
 	const [isCompleteAllAlertDialogOpen, setIsCompleteAllAlertDialogOpen] =
 		useState<boolean>(false);
@@ -88,6 +94,21 @@ function Main() {
 		toggleTodoCompletion(todoId, newStatus);
 	}
 
+	function handleUpdateTodoText(todoId: number, newText: string) {
+		const functionSignature = "Main.tsx@handleUpdateTodoText()";
+		console.log(
+			functionSignature,
+			`Updating text for todo ID ${todoId} to "${newText}"`,
+		);
+		updateTodoText(todoId, newText);
+	}
+
+	function handleDeleteTodo(todoId: number) {
+		const functionSignature = "Main.tsx@handleDeleteTodo()";
+		console.log(functionSignature, `Deleting todo with ID ${todoId}`);
+		deleteTodo(todoId);
+	}
+
 	return (
 		<div className="bg-background w-full">
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 sm:p-6 lg:p-12">
@@ -96,10 +117,14 @@ function Main() {
 					newTodoInputFieldId={newTodoInputFieldId}
 					focusNewTodoInputField={focusNewTodoInputField}
 				/>
-				<TodoList
-					todos={todoStoreTodos}
-					handleToggleTodoCompletion={handleToggleTodoCompletion}
-				/>
+				{todoStoreTodos.length > 0 && (
+					<TodoList
+						todos={todoStoreTodos}
+						handleToggleTodoCompletion={handleToggleTodoCompletion}
+						handleUpdateTodoText={handleUpdateTodoText}
+						handleDeleteTodo={handleDeleteTodo}
+					/>
+				)}
 			</div>
 		</div>
 	);

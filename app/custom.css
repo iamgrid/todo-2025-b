@@ -2,4 +2,7 @@
   .todo-list-item:hover span[role=checkbox] {
 	border-color: gray;
   }
+  .todo-list-item--completed div[role=group] button {
+    opacity: 0.3;
+  }
 }

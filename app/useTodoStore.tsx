@@ -71,10 +71,32 @@ export default function useTodoStore() {
 		setTodos(updatedTodos);
 	}
 
+	function updateTodoText(todoId: number, newText: string) {
+		const updatedTodos = todoStoreTodos.map((todo) => {
+			if (todo.id === todoId) {
+				return {
+					...todo,
+					text: newText,
+					lastUpdatedAt: new Date().toISOString(),
+				};
+			}
+			return todo;
+		});
+
+		setTodos(updatedTodos);
+	}
+
+	function deleteTodo(todoId: number) {
+		const updatedTodos = todoStoreTodos.filter((todo) => todo.id !== todoId);
+		setTodos(updatedTodos);
+	}
+
 	return {
 		isLocalStorageWorking,
 		todoStoreTodos,
 		addTodo,
 		toggleTodoCompletion,
+		updateTodoText,
+		deleteTodo,
 	};
 }

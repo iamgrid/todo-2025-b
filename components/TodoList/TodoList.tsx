@@ -6,9 +6,16 @@ import { FRIENDLY_DATE_RERENDER_INTERVAL_MS } from "@/lib/helpers";
 export interface TTodoListProps {
 	todos: TTodo[];
 	handleToggleTodoCompletion(todoId: number, newStatus: boolean): void;
+	handleUpdateTodoText(todoId: number, newText: string): void;
+	handleDeleteTodo(todoId: number): void;
 }
 
-function TodoList({ todos, handleToggleTodoCompletion }: TTodoListProps) {
+function TodoList({
+	todos,
+	handleToggleTodoCompletion,
+	handleUpdateTodoText,
+	handleDeleteTodo,
+}: TTodoListProps) {
 	const [triggerFriendlyDateRerender, setTriggerFriendlyDateRerender] =
 		useState<number>(0);
 
@@ -29,6 +36,8 @@ function TodoList({ todos, handleToggleTodoCompletion }: TTodoListProps) {
 					todo={todo}
 					listItemIndex={ix}
 					handleToggleTodoCompletion={handleToggleTodoCompletion}
+					handleUpdateTodoText={handleUpdateTodoText}
+					handleDeleteTodo={handleDeleteTodo}
 					triggerFriendlyDateRerender={triggerFriendlyDateRerender}
 				/>
 			))}

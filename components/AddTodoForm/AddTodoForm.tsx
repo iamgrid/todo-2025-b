@@ -6,6 +6,8 @@ import {
 } from "../../lib/helpers";
 import { useDoesUserHaveAProperMouse } from "../../lib/useDoesUserHaveAProperMouse";
 import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { IconPlus } from "@tabler/icons-react";
 
 interface TAddTodoFormProps {
 	handleAddTodo: (text: string) => void;
@@ -42,43 +44,20 @@ function AddTodoForm({
 		}
 	}
 
-	function handleNewTodoFormSubmission(
-		event: React.FormEvent<HTMLFormElement> | null = null,
-	) {
-		const functionSignature = "App.tsx@handleNewTodoFormSubmission()";
+	function submitNewTodoAction(formData: FormData) {
+		const functionSignature = "App.tsx@submitNewTodoAction()";
 
-		let formElement: HTMLFormElement | null = null;
-
-		if (event !== null) {
-			event.preventDefault();
-			formElement = event.currentTarget;
-		} else {
-			formElement = document.getElementById(formId) as HTMLFormElement | null;
-		}
-
-		if (!todoInputIsValid) {
-			return;
-		}
-
-		if (formElement === null) {
-			console.error(functionSignature, "Could not find form element in DOM!");
-			return;
-		}
-
-		const formData = new FormData(formElement);
-
-		// for (const [key, value] of formData.entries()) {
-		// 	console.log(
-		// 		functionSignature,
-		// 		`Form data entry: ${key} = ${value}`
-		// 	);
-		// }
+		console.log(
+			functionSignature,
+			"Form data received:",
+			Array.from(formData.entries()),
+		);
 
 		if (!formData.has(newTodoInputFieldId)) {
 			console.error(
 				functionSignature,
 				`Form data does not have expected field with ID '${newTodoInputFieldId}'!`,
-				formData.entries(),
+				Array.from(formData.entries()),
 			);
 			return;
 		}
@@ -96,54 +75,81 @@ function AddTodoForm({
 
 		handleAddTodo(newTodoText);
 
+		const formElement = document.getElementById(
+			formId,
+		) as HTMLFormElement | null;
+		if (formElement === null) {
+			console.error(functionSignature, "Could not find form element in DOM!");
+			return;
+		}
+
 		formElement.reset();
 
 		setTodoInputIsValid(true);
 		setTodoInputValueIsOverMaxLengthBy(0);
-
 		focusNewTodoInputField();
 	}
 
 	return (
 		<form
 			id={formId}
-			className="new-todo-form mb-3"
-			onSubmit={(event) => handleNewTodoFormSubmission(event)}
+			className="new-todo-form mb-3 px-2"
+			action={submitNewTodoAction}
 			noValidate
 		>
-			<Textarea
-				id={newTodoInputFieldId}
-				name={newTodoInputFieldId}
-				className="resize-none md:text-base text-zinc-900 dark:text-zinc-300 pb-[6px]"
-				placeholder="What needs to be done?"
-				autoFocus
-				onChange={(event) => handleTodoInputChange(event.target.value)}
-				rows={1}
-				style={{ minHeight: "unset", maxHeight: "5.4em" }}
-				// minRows={1}
-				// maxRows={4}
-				aria-invalid={!todoInputIsValid}
-				onKeyDown={(event) => {
-					if (event.key === "Enter") {
-						event.preventDefault();
-						handleNewTodoFormSubmission();
-					}
-				}}
-				onBlur={() => {
-					const newTodoInputField = document.getElementById(
-						newTodoInputFieldId,
-					) as HTMLInputElement | null;
-					if (newTodoInputField !== null) {
-						if (newTodoInputField.value.trim().length === 0) {
-							newTodoInputField.value = "";
-							setTodoInputIsValid(true);
-							setTodoInputValueIsOverMaxLengthBy(0);
+			<div className="grid w-full grid-cols-[1fr_auto] items-center gap-3">
+				<Textarea
+					id={newTodoInputFieldId}
+					name={newTodoInputFieldId}
+					className="resize-none pb-1.5 text-zinc-900 md:text-base dark:text-zinc-300"
+					placeholder="What needs to be done?"
+					autoFocus
+					onChange={(event) => handleTodoInputChange(event.target.value)}
+					rows={1}
+					style={{ minHeight: "unset", maxHeight: "5.4em" }}
+					aria-invalid={!todoInputIsValid}
+					onKeyDown={(event) => {
+						const functionSignature = "AddTodoForm.tsx@onKeyDown()";
+						if (event.key === "Enter") {
+							event.preventDefault();
+							const formElement = document.getElementById(
+								formId,
+							) as HTMLFormElement | null;
+							if (formElement === null) {
+								console.error(
+									functionSignature,
+									"Could not find form element in DOM!",
+								);
+								return;
+							}
+							const formData = new FormData(formElement);
+							submitNewTodoAction(formData);
 						}
-					}
-				}}
-			/>
+					}}
+					onBlur={() => {
+						const newTodoInputField = document.getElementById(
+							newTodoInputFieldId,
+						) as HTMLInputElement | null;
+						if (newTodoInputField !== null) {
+							if (newTodoInputField.value.trim().length === 0) {
+								newTodoInputField.value = "";
+								setTodoInputIsValid(true);
+								setTodoInputValueIsOverMaxLengthBy(0);
+							}
+						}
+					}}
+				/>
+				<Button
+					type="submit"
+					className=""
+					size={"lg"}
+					disabled={!todoInputIsValid}
+				>
+					<IconPlus /> Add
+				</Button>
+			</div>
 			<div
-				className={`text-sm pl-[5px] mt-1 ${!todoInputIsValid ? "text-red-500 dark:text-red-400/80" : "text-zinc-500 dark:text-zinc-400"}`}
+				className={`mt-1 pl-1.25 text-sm ${!todoInputIsValid ? "text-red-500 dark:text-red-400/80" : "text-zinc-500 dark:text-zinc-400"}`}
 			>
 				{!todoInputIsValid
 					? `${TODO_TITLE_LENGTH_ERROR_MESSAGE} (You are over by ${todoInputValueIsOverMaxLengthBy} characters.)`
