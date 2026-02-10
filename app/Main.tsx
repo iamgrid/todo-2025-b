@@ -117,13 +117,20 @@ function Main() {
 					newTodoInputFieldId={newTodoInputFieldId}
 					focusNewTodoInputField={focusNewTodoInputField}
 				/>
-				{todoStoreTodos.length > 0 && (
+				{todoStoreTodos.length > 0 ? (
 					<TodoList
 						todos={todoStoreTodos}
+						noOfTodos={noOfTodos}
+						noOfIncompleteTodos={noOfIncompleteTodos}
+						noOfCompletedTodos={noOfCompletedTodos}
 						handleToggleTodoCompletion={handleToggleTodoCompletion}
 						handleUpdateTodoText={handleUpdateTodoText}
 						handleDeleteTodo={handleDeleteTodo}
 					/>
+				) : (
+					<div className="mt-10 text-center text-lg text-zinc-500 italic">
+						You have no todos yet. Add one above to get started!
+					</div>
 				)}
 			</div>
 		</div>

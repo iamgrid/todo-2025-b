@@ -19,7 +19,6 @@ import { Textarea } from "../ui/textarea";
 
 export interface TTodoListItemProps {
 	todo: TTodo;
-	listItemIndex: number;
 	handleToggleTodoCompletion(todoId: number, newStatus: boolean): void;
 	isTodoBeingEdited: boolean;
 	handleEditTodo(todoId: number): void;
@@ -31,7 +30,6 @@ export interface TTodoListItemProps {
 
 function TodoListItem({
 	todo,
-	listItemIndex,
 	handleToggleTodoCompletion,
 	isTodoBeingEdited,
 	handleEditTodo,
