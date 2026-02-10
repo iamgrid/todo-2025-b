@@ -62,6 +62,14 @@ function AddTodoForm({
 			return;
 		}
 
+		if (!todoInputIsValid) {
+			console.warn(
+				functionSignature,
+				"Todo input is not valid, returning early...",
+			);
+			return;
+		}
+
 		const newTodoText = (formData.get(newTodoInputFieldId) as string).trim();
 
 		if (newTodoText.length === 0) {
@@ -101,7 +109,7 @@ function AddTodoForm({
 				<Textarea
 					id={newTodoInputFieldId}
 					name={newTodoInputFieldId}
-					className="resize-none pb-1.5 text-zinc-900 md:text-base dark:text-zinc-300"
+					className="resize-none pb-1.5 text-zinc-900 dark:text-zinc-300"
 					placeholder="What needs to be done?"
 					autoFocus
 					onChange={(event) => handleTodoInputChange(event.target.value)}

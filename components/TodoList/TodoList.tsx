@@ -56,6 +56,11 @@ function TodoList({
 		setIsDeleteDialogOpen(false);
 	}
 
+	function handleUpdateTodoTextProper(todoId: number, newText: string) {
+		handleUpdateTodoText(todoId, newText);
+		setEditingTodoId(null);
+	}
+
 	return (
 		<>
 			<ul>
@@ -65,7 +70,10 @@ function TodoList({
 						todo={todo}
 						listItemIndex={ix}
 						handleToggleTodoCompletion={handleToggleTodoCompletion}
-						handleUpdateTodoText={handleUpdateTodoText}
+						isTodoBeingEdited={editingTodoId === todo.id}
+						handleEditTodo={(todoId) => setEditingTodoId(todoId)}
+						handleCancelEditingTodo={() => setEditingTodoId(null)}
+						handleUpdateTodoTextProper={handleUpdateTodoTextProper}
 						handleDeleteTodoProper={handleDeleteTodoProper}
 						triggerFriendlyDateRerender={triggerFriendlyDateRerender}
 					/>
