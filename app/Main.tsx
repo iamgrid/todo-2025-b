@@ -4,6 +4,7 @@ import AddTodoForm from "../components/AddTodoForm/AddTodoForm";
 
 import useTodoStore from "./useTodoStore";
 import TodoList from "../components/TodoList/TodoList";
+import Header from "@/components/Header/Header";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -121,6 +122,7 @@ function Main() {
 	return (
 		<div className="bg-background w-full">
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 sm:p-6 lg:p-12">
+				<Header />
 				<AddTodoForm
 					handleAddTodo={handleAddTodo}
 					newTodoInputFieldId={newTodoInputFieldId}

@@ -154,30 +154,36 @@ function TodoList({
 				/>
 			</div>
 			<ul>
-				{sortedAndFilteredTodos.map((todo) => (
-					<TodoListItem
-						key={todo.id}
-						todo={todo}
-						handleToggleTodoCompletion={handleToggleTodoCompletion}
-						isTodoBeingEdited={editingTodoId === todo.id}
-						handleEditTodo={(todoId) => setEditingTodoId(todoId)}
-						handleCancelEditingTodo={() => setEditingTodoId(null)}
-						handleUpdateTodoTextProper={handleUpdateTodoTextProper}
-						handleDeleteTodoProper={handleDeleteTodoProper}
-						triggerFriendlyDateRerender={triggerFriendlyDateRerender}
-					/>
-				))}
+				{sortedAndFilteredTodos.length > 0 ? (
+					sortedAndFilteredTodos.map((todo) => (
+						<TodoListItem
+							key={todo.id}
+							todo={todo}
+							handleToggleTodoCompletion={handleToggleTodoCompletion}
+							isTodoBeingEdited={editingTodoId === todo.id}
+							handleEditTodo={(todoId) => setEditingTodoId(todoId)}
+							handleCancelEditingTodo={() => setEditingTodoId(null)}
+							handleUpdateTodoTextProper={handleUpdateTodoTextProper}
+							handleDeleteTodoProper={handleDeleteTodoProper}
+							triggerFriendlyDateRerender={triggerFriendlyDateRerender}
+						/>
+					))
+				) : (
+					<div className="mt-10 text-center text-lg text-zinc-500 italic">
+						No todos satisfy your current filter settings.
+					</div>
+				)}
 			</ul>
 			<div className="mt-5 flex justify-center gap-2">
 				<Button
-					variant="outline"
+					variant="ghost"
 					disabled={noOfIncompleteTodos === 0}
 					onClick={() => setIsCompleteAllAlertDialogOpen(true)}
 				>
 					<IconChecks /> Complete all
 				</Button>
 				<Button
-					variant="outline"
+					variant="ghost"
 					disabled={noOfCompletedTodos === 0}
 					onClick={() => setIsClearCompletedAlertDialogOpen(true)}
 				>
