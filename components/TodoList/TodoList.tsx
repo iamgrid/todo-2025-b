@@ -19,10 +19,12 @@ import {
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogMedia,
+	AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { IconTrash } from "@tabler/icons-react";
+import { IconTrash, IconTrashX, IconChecks } from "@tabler/icons-react";
 import FilterListButtons from "./FilterListButtons";
 import SortListButtons from "./SortListButtons";
+import { Button } from "../ui/button";
 
 export interface TTodoListProps {
 	todos: TTodo[];
@@ -32,6 +34,8 @@ export interface TTodoListProps {
 	handleToggleTodoCompletion(todoId: number, newStatus: boolean): void;
 	handleUpdateTodoText(todoId: number, newText: string): void;
 	handleDeleteTodo(todoId: number): void;
+	handleCompleteAllTodos(): void;
+	handleClearCompletedTodos(): void;
 }
 
 function TodoList({
@@ -42,10 +46,16 @@ function TodoList({
 	handleToggleTodoCompletion,
 	handleUpdateTodoText,
 	handleDeleteTodo,
+	handleCompleteAllTodos,
+	handleClearCompletedTodos,
 }: TTodoListProps) {
 	const [triggerFriendlyDateRerender, setTriggerFriendlyDateRerender] =
 		useState<number>(0);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+	const [isCompleteAllAlertDialogOpen, setIsCompleteAllAlertDialogOpen] =
+		useState<boolean>(false);
+	const [isClearCompletedAlertDialogOpen, setIsClearCompletedAlertDialogOpen] =
+		useState<boolean>(false);
 	const [todoIdToDelete, setTodoIdToDelete] = useState<number | null>(null);
 	const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
 	const [currentSortingOption, setCurrentSortingOption] =
@@ -158,6 +168,22 @@ function TodoList({
 					/>
 				))}
 			</ul>
+			<div className="mt-5 flex justify-center gap-2">
+				<Button
+					variant="outline"
+					disabled={noOfIncompleteTodos === 0}
+					onClick={() => setIsCompleteAllAlertDialogOpen(true)}
+				>
+					<IconChecks /> Complete all
+				</Button>
+				<Button
+					variant="outline"
+					disabled={noOfCompletedTodos === 0}
+					onClick={() => setIsClearCompletedAlertDialogOpen(true)}
+				>
+					<IconTrashX /> Clear completed
+				</Button>
+			</div>
 			<AlertDialog open={isDeleteDialogOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
@@ -198,6 +224,65 @@ function TodoList({
 							variant="destructive"
 						>
 							Delete
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<AlertDialog open={isCompleteAllAlertDialogOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogMedia>
+							<IconChecks size={48} />
+						</AlertDialogMedia>
+						<AlertDialogTitle>Complete all todos?</AlertDialogTitle>
+						<AlertDialogDescription>
+							You are about to mark {noOfIncompleteTodos} incomplete todo(s) as
+							completed. Proceed?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel
+							onClick={() => setIsCompleteAllAlertDialogOpen(false)}
+						>
+							Cancel
+						</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={() => {
+								handleCompleteAllTodos();
+								setIsCompleteAllAlertDialogOpen(false);
+							}}
+						>
+							Complete all
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<AlertDialog open={isClearCompletedAlertDialogOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogMedia>
+							<IconTrashX size={48} />
+						</AlertDialogMedia>
+						<AlertDialogTitle>Clear completed todos?</AlertDialogTitle>
+						<AlertDialogDescription>
+							You are about to clear {noOfCompletedTodos} completed todo(s).
+							Proceed?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel
+							onClick={() => setIsClearCompletedAlertDialogOpen(false)}
+						>
+							Cancel
+						</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={() => {
+								handleClearCompletedTodos();
+								setIsClearCompletedAlertDialogOpen(false);
+							}}
+							variant="destructive"
+						>
+							Clear completed
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>

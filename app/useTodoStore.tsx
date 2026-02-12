@@ -91,6 +91,22 @@ export default function useTodoStore() {
 		setTodos(updatedTodos);
 	}
 
+	function completeAllTodos() {
+		const nowISOString = new Date().toISOString();
+		const updatedTodos = todoStoreTodos.map((todo) => {
+			if (!todo.isCompleted) {
+				return { ...todo, isCompleted: true, completedAt: nowISOString };
+			}
+			return todo;
+		});
+		setTodos(updatedTodos);
+	}
+
+	function clearCompletedTodos() {
+		const updatedTodos = todoStoreTodos.filter((todo) => !todo.isCompleted);
+		setTodos(updatedTodos);
+	}
+
 	return {
 		isLocalStorageWorking,
 		todoStoreTodos,
@@ -98,5 +114,7 @@ export default function useTodoStore() {
 		toggleTodoCompletion,
 		updateTodoText,
 		deleteTodo,
+		completeAllTodos,
+		clearCompletedTodos,
 	};
 }

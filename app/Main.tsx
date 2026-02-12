@@ -13,12 +13,9 @@ function Main() {
 		toggleTodoCompletion,
 		updateTodoText,
 		deleteTodo,
+		completeAllTodos,
+		clearCompletedTodos,
 	} = useTodoStore();
-
-	const [isCompleteAllAlertDialogOpen, setIsCompleteAllAlertDialogOpen] =
-		useState<boolean>(false);
-	const [isClearCompletedAlertDialogOpen, setIsClearCompletedAlertDialogOpen] =
-		useState<boolean>(false);
 
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 	const [snackbarMessage, setSnackbarMessage] = useState<string>("");
@@ -109,6 +106,18 @@ function Main() {
 		deleteTodo(todoId);
 	}
 
+	function handleCompleteAllTodos() {
+		const functionSignature = "Main.tsx@handleCompleteAllTodos()";
+		console.log(functionSignature, "Completing all todos...");
+		completeAllTodos();
+	}
+
+	function handleClearCompletedTodos() {
+		const functionSignature = "Main.tsx@handleClearCompletedTodos()";
+		console.log(functionSignature, "Clearing completed todos...");
+		clearCompletedTodos();
+	}
+
 	return (
 		<div className="bg-background w-full">
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 sm:p-6 lg:p-12">
@@ -126,6 +135,8 @@ function Main() {
 						handleToggleTodoCompletion={handleToggleTodoCompletion}
 						handleUpdateTodoText={handleUpdateTodoText}
 						handleDeleteTodo={handleDeleteTodo}
+						handleCompleteAllTodos={handleCompleteAllTodos}
+						handleClearCompletedTodos={handleClearCompletedTodos}
 					/>
 				) : (
 					<div className="mt-10 text-center text-lg text-zinc-500 italic">
