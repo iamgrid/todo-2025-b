@@ -130,7 +130,7 @@ function TodoList({
 
 	return (
 		<div className="py-5">
-			<div className="mb-2 flex flex-wrap gap-4 px-3">
+			<div className="flex flex-wrap gap-4 overflow-x-auto px-3 pb-2">
 				<FilterListButtons
 					noOfTodos={noOfTodos}
 					noOfIncompleteTodos={noOfIncompleteTodos}
@@ -158,7 +158,7 @@ function TodoList({
 					/>
 				))}
 			</ul>
-			<AlertDialog open={isDeleteDialogOpen} onOpenChange={handleCancelDelete}>
+			<AlertDialog open={isDeleteDialogOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogMedia>
@@ -195,6 +195,7 @@ function TodoList({
 								setTodoIdToDelete(null);
 								setIsDeleteDialogOpen(false);
 							}}
+							variant="destructive"
 						>
 							Delete
 						</AlertDialogAction>

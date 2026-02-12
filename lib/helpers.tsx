@@ -65,13 +65,10 @@ export function friendlyDate(input: string | Date): string {
 		Date.parse(
 			`${nowObj.getFullYear()}-${
 				nowObj.getMonth() + 1
-			}-${nowObj.getDate()} 00:00:00`
+			}-${nowObj.getDate()} 00:00:00`,
 		) / 1000; // timestamp for 00:00:00 of today
 
-	let strDate = `${shortDateFormat(inputDateObj)}`;
-	if (inputDateObj.getFullYear() !== nowObj.getFullYear()) {
-		strDate = `${strDate}, ${inputDateObj.getFullYear()}`;
-	}
+	const strDate = `${shortDateFormat(inputDateObj)}`;
 
 	const diff = Math.round(nowTs - ts);
 	const diffInDays = Math.ceil(Math.abs(zerohourToday - ts) / (24 * 60 * 60));
@@ -130,7 +127,7 @@ export function shortenPhrase(
 	input: string | false | null | undefined,
 	maxLength: number,
 	addDots: boolean = true,
-	cutWords: boolean = false
+	cutWords: boolean = false,
 ): string {
 	if (typeof input === "undefined" || input === false || input === null) {
 		return "-";

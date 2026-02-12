@@ -272,7 +272,7 @@ function TodoListItem({
 						autoFocus
 					/>
 					{!editTodoInputIsValid ? (
-						<div className="mt-1 pl-1.25 text-sm text-red-500 dark:text-red-400/80">
+						<div className="mt-1.5 pl-1.25 text-sm text-red-500 dark:text-red-400/80">
 							{TODO_TITLE_LENGTH_ERROR_MESSAGE}{" "}
 							{editTodoInputValueIsOverMaxLengthBy > 0
 								? `(You are over by ${editTodoInputValueIsOverMaxLengthBy} characters.)`
