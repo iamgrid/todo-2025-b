@@ -19,7 +19,6 @@ import {
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogMedia,
-	AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { IconTrash, IconTrashX, IconChecks } from "@tabler/icons-react";
 import FilterListButtons from "./FilterListButtons";
@@ -223,9 +222,11 @@ function TodoList({
 									);
 									return;
 								}
-								handleDeleteTodo(todoIdToDelete);
-								setTodoIdToDelete(null);
 								setIsDeleteDialogOpen(false);
+								setTimeout(() => {
+									handleDeleteTodo(todoIdToDelete);
+									setTodoIdToDelete(null);
+								}, 0);
 							}}
 							variant="destructive"
 						>
@@ -254,8 +255,10 @@ function TodoList({
 						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={() => {
-								handleCompleteAllTodos();
 								setIsCompleteAllAlertDialogOpen(false);
+								setTimeout(() => {
+									handleCompleteAllTodos();
+								}, 0);
 							}}
 						>
 							Complete all
@@ -283,8 +286,10 @@ function TodoList({
 						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={() => {
-								handleClearCompletedTodos();
 								setIsClearCompletedAlertDialogOpen(false);
+								setTimeout(() => {
+									handleClearCompletedTodos();
+								}, 0);
 							}}
 							variant="destructive"
 						>

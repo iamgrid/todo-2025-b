@@ -4,7 +4,12 @@ import { useId, useState } from "react";
 import FriendlyDate from "../shared/FriendlyDate";
 import { ButtonGroup } from "../ui/button-group";
 import { Button } from "../ui/button";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import {
+	IconEdit,
+	IconTrash,
+	IconDeviceFloppy,
+	IconCancel,
+} from "@tabler/icons-react";
 import {
 	MAX_TODO_TITLE_LENGTH,
 	shortenPhrase,
@@ -282,6 +287,7 @@ function TodoListItem({
 				</div>
 				<div>
 					<Button type="submit" disabled={!editTodoInputIsValid} size={"lg"}>
+						<IconDeviceFloppy size={16} />
 						Save
 					</Button>
 					<Button
@@ -292,6 +298,7 @@ function TodoListItem({
 						}}
 						size={"lg"}
 					>
+						<IconCancel size={16} />
 						Cancel
 					</Button>
 				</div>

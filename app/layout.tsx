@@ -31,11 +31,11 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${publicSans.variable} dark`}
+			className={`${publicSans.variable} dark m-0 p-0`}
 			style={{ colorScheme: "dark" }}
 		>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} m-0 p-0 antialiased`}
 			>
 				<TooltipProvider>{children}</TooltipProvider>
 			</body>

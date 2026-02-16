@@ -5,6 +5,7 @@ import AddTodoForm from "../components/AddTodoForm/AddTodoForm";
 import useTodoStore from "./useTodoStore";
 import TodoList from "../components/TodoList/TodoList";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -145,6 +146,7 @@ function Main() {
 						You have no todos yet. Add one above to get started!
 					</div>
 				)}
+				<Footer />
 			</div>
 		</div>
 	);
