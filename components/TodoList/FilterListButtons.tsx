@@ -23,10 +23,10 @@ function FilterListButtons({
 				value={[currentFilteringOption]}
 				aria-label="Todo filtering options"
 				onValueChange={(groupValue) => {
-					const functionSignature = "FilterListButtons.tsx@onValueChange()";
+					// const functionSignature = "FilterListButtons.tsx@onValueChange()";
 					const newValue = groupValue[0] as TFilteringOption;
 					if (newValue) {
-						console.log(functionSignature, "Group value changed:", newValue);
+						// console.log(functionSignature, "Group value changed:", newValue);
 						setCurrentFilteringOption(newValue);
 					}
 				}}

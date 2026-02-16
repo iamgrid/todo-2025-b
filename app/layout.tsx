@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 
 import { Geist, Geist_Mono, Public_Sans } from "next/font/google";
 import "./globals.css";
@@ -31,13 +32,20 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${publicSans.variable} dark m-0 p-0`}
-			style={{ colorScheme: "dark" }}
+			className={`${publicSans.variable} m-0 p-0`}
+			suppressHydrationWarning
 		>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} m-0 p-0 antialiased`}
 			>
-				<TooltipProvider>{children}</TooltipProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<TooltipProvider>{children}</TooltipProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

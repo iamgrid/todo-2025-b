@@ -17,10 +17,10 @@ function SortListButtons({
 				value={[currentSortingOption]}
 				aria-label="Todo sorting options"
 				onValueChange={(groupValue) => {
-					const functionSignature = "SortListButtons.tsx@onValueChange()";
+					// const functionSignature = "SortListButtons.tsx@onValueChange()";
 					const newValue = groupValue[0] as TSortingOption;
 					if (newValue) {
-						console.log(functionSignature, "Group value changed:", newValue);
+						// console.log(functionSignature, "Group value changed:", newValue);
 						setCurrentSortingOption(newValue);
 					}
 				}}
