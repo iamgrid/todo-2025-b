@@ -32,14 +32,24 @@ const defaultTodos: TTodo[] = [
 ];
 
 export default function useTodoStore() {
-	const [todoStoreTodos, setTodos, { isPersistent: isLocalStorageWorking }] =
-		useLocalStorageState("todo-2025-b", {
+	const [todoStoreTodos, setTodos, { isPersistent }] = useLocalStorageState(
+		"todo-2025-b",
+		{
 			defaultValue: defaultTodos,
-		});
+		},
+	);
+
+	console.log("isPersistent in useTodoStore:", isPersistent);
+
+	const isLocalStorageWorking = isPersistent;
 
 	function addTodo(text: string) {
 		let newId = 1;
-		if (todoStoreTodos.length > 0) {
+		if (
+			typeof todoStoreTodos !== "undefined" &&
+			Array.isArray(todoStoreTodos) &&
+			todoStoreTodos.length > 0
+		) {
 			newId = Math.max(...todoStoreTodos.map((t) => t.id)) + 1;
 		}
 

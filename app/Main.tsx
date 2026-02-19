@@ -7,6 +7,7 @@ import TodoList from "../components/TodoList/TodoList";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ColorSchemeSwitch from "@/components/ColorSchemeSwitch/ColorSchemeSwitch";
+import LocalStorageWarning from "@/components/LocalStorageWarning/LocalStorageWarning";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -18,7 +19,13 @@ function Main() {
 		deleteTodo,
 		completeAllTodos,
 		clearCompletedTodos,
+		isLocalStorageWorking,
 	} = useTodoStore();
+
+	console.log(
+		"isLocalStorageWorking in Main component:",
+		isLocalStorageWorking,
+	);
 
 	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 	const [snackbarMessage, setSnackbarMessage] = useState<string>("");
@@ -32,6 +39,9 @@ function Main() {
 		noOfIncompleteTodos: number;
 		noOfCompletedTodos: number;
 	} = useMemo(() => {
+		if (typeof todoStoreTodos === "undefined") {
+			return { noOfTodos: 0, noOfIncompleteTodos: 0, noOfCompletedTodos: 0 };
+		}
 		const noOfTodos = todoStoreTodos.length;
 		const noOfIncompleteTodos = todoStoreTodos.filter(
 			(todo) => !todo.isCompleted,
@@ -126,12 +136,13 @@ function Main() {
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 md:py-6">
 				<ColorSchemeSwitch />
 				<Header />
+				<LocalStorageWarning isLocalStorageWorking={isLocalStorageWorking} />
 				<AddTodoForm
 					handleAddTodo={handleAddTodo}
 					newTodoInputFieldId={newTodoInputFieldId}
 					focusNewTodoInputField={focusNewTodoInputField}
 				/>
-				{todoStoreTodos.length > 0 ? (
+				{typeof todoStoreTodos !== "undefined" && todoStoreTodos.length > 0 ? (
 					<TodoList
 						todos={todoStoreTodos}
 						noOfTodos={noOfTodos}
