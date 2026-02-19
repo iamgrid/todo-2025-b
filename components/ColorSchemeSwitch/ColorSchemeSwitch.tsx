@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { IconMoon, IconSun, IconDeviceLaptop } from "@tabler/icons-react";
+import { Skeleton } from "../ui/skeleton";
 
 const COLOR_SCHEMES = [
 	{ name: "System Preference", colorSchemeValue: "system" },
@@ -19,41 +20,43 @@ export default function ColorSchemeSwitch() {
 		setMounted(true);
 	}, []);
 
-	if (!mounted) {
-		return null;
-	}
-
 	return (
 		<div className="flex items-center justify-end gap-2 px-2">
 			<div className="text-xs text-zinc-500">Color Scheme:</div>
-			<ToggleGroup
-				value={[theme]}
-				aria-label="Color scheme options"
-				onValueChange={(groupValue) => {
-					// const functionSignature = "ColorSchemeSwitch.tsx@onValueChange()";
-					const newValue =
-						groupValue[0] as (typeof COLOR_SCHEMES)[number]["colorSchemeValue"];
-					if (newValue) {
-						// console.log(functionSignature, "Group value changed:", newValue);
-						setTheme(newValue);
-					}
-				}}
-				variant="outline"
-				size="sm"
-			>
-				{COLOR_SCHEMES.map((scheme) => (
-					<ToggleGroupItem
-						key={scheme.colorSchemeValue}
-						value={scheme.colorSchemeValue}
-						aria-label={`Toggle ${scheme.name} color scheme`}
-					>
-						{scheme.colorSchemeValue === "system" && <IconDeviceLaptop />}
-						{scheme.colorSchemeValue === "light" && <IconSun />}
-						{scheme.colorSchemeValue === "dark" && <IconMoon />}
-						<span className="hidden text-xs md:inline">{scheme.name}</span>
-					</ToggleGroupItem>
-				))}
-			</ToggleGroup>
+			{mounted ? (
+				<ToggleGroup
+					value={[theme]}
+					aria-label="Color scheme options"
+					onValueChange={(groupValue) => {
+						// const functionSignature = "ColorSchemeSwitch.tsx@onValueChange()";
+						const newValue =
+							groupValue[0] as (typeof COLOR_SCHEMES)[number]["colorSchemeValue"];
+						if (newValue) {
+							// console.log(functionSignature, "Group value changed:", newValue);
+							setTheme(newValue);
+						}
+					}}
+					variant="outline"
+					size="sm"
+				>
+					{COLOR_SCHEMES.map((scheme) => (
+						<ToggleGroupItem
+							key={scheme.colorSchemeValue}
+							value={scheme.colorSchemeValue}
+							aria-label={`Toggle ${scheme.name} color scheme`}
+						>
+							{scheme.colorSchemeValue === "system" && <IconDeviceLaptop />}
+							{scheme.colorSchemeValue === "light" && <IconSun />}
+							{scheme.colorSchemeValue === "dark" && <IconMoon />}
+							<span className="hidden text-xs md:inline">{scheme.name}</span>
+						</ToggleGroupItem>
+					))}
+				</ToggleGroup>
+			) : (
+				<div className="flex items-center px-2 py-1">
+					<Skeleton className="h-5 w-[84px] rounded-md md:w-[259px]" />
+				</div>
+			)}
 		</div>
 	);
 }
