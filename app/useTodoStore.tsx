@@ -1,3 +1,4 @@
+import { TODO_KEY_PREFIX } from "../lib/helpers";
 import useLocalStorageState from "use-local-storage-state";
 
 export interface TNewTodo {
@@ -12,32 +13,31 @@ export interface TTodo extends TNewTodo {
 	completedAt: null | string; // ISO string
 }
 
-const defaultTodos: TTodo[] = [
-	{
-		id: 1,
-		text: "Buy avocado",
-		isCompleted: false,
-		createdAt: "2026-01-01T10:00:00.000Z",
-		lastUpdatedAt: null,
-		completedAt: null,
-	},
-	{
-		id: 2,
-		text: "Do 50 push-ups",
-		isCompleted: false,
-		createdAt: "2026-01-02T11:00:00.000Z",
-		lastUpdatedAt: null,
-		completedAt: null,
-	},
-];
+// const defaultTodos: TTodo[] = [
+// 	{
+// 		id: 1,
+// 		text: "Buy avocado",
+// 		isCompleted: false,
+// 		createdAt: "2026-01-01T10:00:00.000Z",
+// 		lastUpdatedAt: null,
+// 		completedAt: null,
+// 	},
+// 	{
+// 		id: 2,
+// 		text: "Do 50 push-ups",
+// 		isCompleted: false,
+// 		createdAt: "2026-01-02T11:00:00.000Z",
+// 		lastUpdatedAt: null,
+// 		completedAt: null,
+// 	},
+// ];
 
 export default function useTodoStore() {
-	const [todoStoreTodos, setTodos, { isPersistent }] = useLocalStorageState(
-		"todo-2025-b",
-		{
-			defaultValue: defaultTodos,
-		},
-	);
+	const [todoStoreTodos, setTodos, { isPersistent }] = useLocalStorageState<
+		TTodo[]
+	>(TODO_KEY_PREFIX, {
+		defaultValue: [],
+	});
 
 	console.log("isPersistent in useTodoStore:", isPersistent);
 
