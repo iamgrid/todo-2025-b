@@ -126,6 +126,7 @@ function AddTodoForm({
 					name={newTodoInputFieldId}
 					className="resize-none pb-1.5 text-zinc-900 dark:text-zinc-300"
 					placeholder="What needs to be done?"
+					aria-label="New todo text"
 					autoFocus
 					onChange={(event) => handleTodoInputChange(event.target.value)}
 					rows={1}

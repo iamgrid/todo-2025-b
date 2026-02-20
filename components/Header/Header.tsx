@@ -1,6 +1,9 @@
 function Header() {
 	return (
-		<header className="my-2 flex justify-center sm:mt-4 sm:mb-6 lg:mt-9 lg:mb-11">
+		<header
+			className="my-2 flex justify-center sm:mt-4 sm:mb-6 lg:mt-9 lg:mb-11"
+			role="banner"
+		>
 			<svg
 				version="1.1"
 				id="Layer_1"

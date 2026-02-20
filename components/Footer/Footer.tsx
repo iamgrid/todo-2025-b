@@ -1,6 +1,9 @@
 function Footer() {
 	return (
-		<footer className="footer mt-1 flex items-center justify-center">
+		<footer
+			className="footer mt-1 flex items-center justify-center"
+			role="contentinfo"
+		>
 			<a
 				className="footer__home mt-[0.2em] mr-[0.45em] flex h-[45px] w-[110px] items-center rounded-[10px] border border-black/0 px-2.5 py-0.5 decoration-0 dark:border-white/0"
 				href="https://iamgrid.co.uk"

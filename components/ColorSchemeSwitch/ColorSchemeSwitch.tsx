@@ -53,7 +53,7 @@ export default function ColorSchemeSwitch() {
 					))}
 				</ToggleGroup>
 			) : (
-				<div className="flex items-center px-2 py-1">
+				<div className="flex items-center px-2 py-1" role="presentation">
 					<Skeleton className="h-5 w-[84px] rounded-md md:w-[259px]" />
 				</div>
 			)}
