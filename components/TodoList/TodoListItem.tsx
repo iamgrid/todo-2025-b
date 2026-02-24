@@ -163,6 +163,7 @@ function TodoListItem({
 					id={checkboxId}
 					name={checkboxId}
 					checked={todo.isCompleted}
+					aria-label={`Toggle todo completion: ${shortenPhrase(todo.text, 20, true, true)}`}
 					// tabIndex={listItemIndex}
 				/>
 				<div className="flex flex-col pl-1">
@@ -178,6 +179,7 @@ function TodoListItem({
 					</label>
 					<div
 						className={`text-sm text-zinc-500 dark:text-zinc-500 ${todo.isCompleted ? "opacity-50" : ""}`}
+						role="note"
 					>
 						{renderSecondaryText()}
 					</div>
@@ -227,6 +229,7 @@ function TodoListItem({
 				id={editTodoFormId}
 				action={editTodoFormAction}
 				className="grid grid-rows-[auto_auto] items-center gap-3 border-t px-2 pt-4 pb-1.5 first:border-t-0 md:grid-cols-[1fr_auto]"
+				role="form"
 			>
 				<div>
 					<Textarea
@@ -274,6 +277,7 @@ function TodoListItem({
 						rows={1}
 						style={{ minHeight: "unset", maxHeight: "5.4em" }}
 						aria-invalid={!editTodoInputIsValid}
+						aria-label="Edit todo text"
 						autoFocus
 					/>
 					{!editTodoInputIsValid ? (

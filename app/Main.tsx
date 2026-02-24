@@ -71,6 +71,8 @@ function Main() {
 	useEffect(() => {
 		const functionSignature = "App.tsx@keyDownHandler useEffect()";
 
+		// throw Error("Test error thrown in useEffect to check error boundary");
+
 		const keyDownHandler = (event: KeyboardEvent) => {
 			const functionSignature = "App.tsx@keyDownHandler()";
 			// console.log(functionSignature, "Key down event detected");
