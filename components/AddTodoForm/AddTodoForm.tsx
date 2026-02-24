@@ -184,7 +184,7 @@ function AddTodoForm({
 				</Button>
 			</div>
 			<div
-				className={`mt-1.5 pl-1.25 text-sm ${!todoInputIsValid ? "text-red-500 dark:text-red-400/80" : "text-zinc-500 dark:text-zinc-400"}`}
+				className={`mt-1.5 pl-1.25 text-sm md:min-h-5 ${!todoInputIsValid ? "text-red-500 dark:text-red-400/80" : "text-zinc-500 dark:text-zinc-400"}`}
 			>
 				{!todoInputIsValid
 					? `${TODO_TITLE_LENGTH_ERROR_MESSAGE} (You are over by ${todoInputValueIsOverMaxLengthBy} characters.)`

@@ -1,5 +1,5 @@
 "use client";
-import { useId, useState, useMemo, useEffect, useCallback } from "react";
+import { useId, useMemo, useEffect, useCallback } from "react";
 import AddTodoForm from "../components/AddTodoForm/AddTodoForm";
 
 import useTodoStore from "./useTodoStore";
@@ -8,6 +8,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ColorSchemeSwitch from "@/components/ColorSchemeSwitch/ColorSchemeSwitch";
 import LocalStorageWarning from "@/components/LocalStorageWarning/LocalStorageWarning";
+import TodoListSkeleton from "@/components/TodoList/TodoListSkeleton";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -27,9 +28,6 @@ function Main() {
 		isLocalStorageWorking,
 	);
 
-	const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-	const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-
 	const {
 		noOfTodos,
 		noOfIncompleteTodos,
@@ -39,7 +37,10 @@ function Main() {
 		noOfIncompleteTodos: number;
 		noOfCompletedTodos: number;
 	} = useMemo(() => {
-		if (typeof todoStoreTodos === "undefined") {
+		if (
+			typeof todoStoreTodos === "undefined" ||
+			todoStoreTodos === "initializing"
+		) {
 			return { noOfTodos: 0, noOfIncompleteTodos: 0, noOfCompletedTodos: 0 };
 		}
 		const noOfTodos = todoStoreTodos.length;
@@ -66,11 +67,6 @@ function Main() {
 			);
 		}
 	}, [newTodoInputFieldId]);
-
-	const showSnackbarMessage = useCallback((message: string) => {
-		setSnackbarMessage(message);
-		setIsSnackbarOpen(true);
-	}, []);
 
 	useEffect(() => {
 		const functionSignature = "App.tsx@keyDownHandler useEffect()";
@@ -131,6 +127,36 @@ function Main() {
 		clearCompletedTodos();
 	}
 
+	function renderTodoList() {
+		if (
+			typeof todoStoreTodos === "undefined" ||
+			todoStoreTodos === "initializing"
+		) {
+			return <TodoListSkeleton />;
+		} else if (todoStoreTodos.length === 0) {
+			return (
+				<div className="mt-10 text-center text-lg text-zinc-500 italic">
+					You have no todos yet. Add one above to get started!
+				</div>
+			);
+		} else {
+			return (
+				<TodoList
+					todos={todoStoreTodos}
+					noOfTodos={noOfTodos}
+					noOfIncompleteTodos={noOfIncompleteTodos}
+					noOfCompletedTodos={noOfCompletedTodos}
+					handleToggleTodoCompletion={handleToggleTodoCompletion}
+					handleUpdateTodoText={handleUpdateTodoText}
+					handleDeleteTodo={handleDeleteTodo}
+					handleCompleteAllTodos={handleCompleteAllTodos}
+					handleClearCompletedTodos={handleClearCompletedTodos}
+				/>
+			);
+			// return <TodoListSkeleton />;
+		}
+	}
+
 	return (
 		<div className="bg-background w-full">
 			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 md:py-6">
@@ -142,23 +168,7 @@ function Main() {
 					newTodoInputFieldId={newTodoInputFieldId}
 					focusNewTodoInputField={focusNewTodoInputField}
 				/>
-				{typeof todoStoreTodos !== "undefined" && todoStoreTodos.length > 0 ? (
-					<TodoList
-						todos={todoStoreTodos}
-						noOfTodos={noOfTodos}
-						noOfIncompleteTodos={noOfIncompleteTodos}
-						noOfCompletedTodos={noOfCompletedTodos}
-						handleToggleTodoCompletion={handleToggleTodoCompletion}
-						handleUpdateTodoText={handleUpdateTodoText}
-						handleDeleteTodo={handleDeleteTodo}
-						handleCompleteAllTodos={handleCompleteAllTodos}
-						handleClearCompletedTodos={handleClearCompletedTodos}
-					/>
-				) : (
-					<div className="mt-10 text-center text-lg text-zinc-500 italic">
-						You have no todos yet. Add one above to get started!
-					</div>
-				)}
+				{renderTodoList()}
 				<Footer />
 			</div>
 		</div>
