@@ -230,7 +230,7 @@ function TodoList({
 							}}
 							variant="destructive"
 						>
-							Delete
+							Delete Todo
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
@@ -274,7 +274,7 @@ function TodoList({
 						</AlertDialogMedia>
 						<AlertDialogTitle>Clear completed todos?</AlertDialogTitle>
 						<AlertDialogDescription>
-							You are about to clear {noOfCompletedTodos} completed todo(s).
+							You are about to delete {noOfCompletedTodos} completed todo(s).
 							Proceed?
 						</AlertDialogDescription>
 					</AlertDialogHeader>

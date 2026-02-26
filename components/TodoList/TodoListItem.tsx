@@ -158,6 +158,7 @@ function TodoListItem({
 					event.preventDefault();
 					handleToggleTodoCompletion(todo.id, !todo.isCompleted);
 				}}
+				role="listitem"
 			>
 				<Checkbox
 					id={checkboxId}
@@ -224,89 +225,91 @@ function TodoListItem({
 		);
 	} else {
 		return (
-			<form
-				noValidate
-				id={editTodoFormId}
-				action={editTodoFormAction}
-				className="grid grid-rows-[auto_auto] items-center gap-3 border-t px-2 pt-4 pb-1.5 first:border-t-0 md:grid-cols-[1fr_auto]"
-				role="form"
-			>
-				<div>
-					<Textarea
-						defaultValue={todo.text}
-						id={editTodoInputFieldId}
-						name={editTodoInputFieldId}
-						onChange={(event) => {
-							const val = event.target.value.trim();
-							if (val.length === 0 || val.length > MAX_TODO_TITLE_LENGTH) {
-								setEditTodoInputIsValid(false);
-								if (val.length > MAX_TODO_TITLE_LENGTH) {
-									setEditTodoInputValueIsOverMaxLengthBy(
-										val.length - MAX_TODO_TITLE_LENGTH,
-									);
+			<div role="listitem" className="border-t first:border-t-0">
+				<form
+					noValidate
+					id={editTodoFormId}
+					action={editTodoFormAction}
+					className="grid grid-rows-[auto_auto] items-center gap-3 px-2 pt-4 pb-1.5 md:grid-cols-[1fr_auto]"
+					role="form"
+				>
+					<div>
+						<Textarea
+							defaultValue={todo.text}
+							id={editTodoInputFieldId}
+							name={editTodoInputFieldId}
+							onChange={(event) => {
+								const val = event.target.value.trim();
+								if (val.length === 0 || val.length > MAX_TODO_TITLE_LENGTH) {
+									setEditTodoInputIsValid(false);
+									if (val.length > MAX_TODO_TITLE_LENGTH) {
+										setEditTodoInputValueIsOverMaxLengthBy(
+											val.length - MAX_TODO_TITLE_LENGTH,
+										);
+									} else {
+										setEditTodoInputValueIsOverMaxLengthBy(0);
+									}
 								} else {
+									setEditTodoInputIsValid(true);
 									setEditTodoInputValueIsOverMaxLengthBy(0);
 								}
-							} else {
-								setEditTodoInputIsValid(true);
-								setEditTodoInputValueIsOverMaxLengthBy(0);
-							}
-						}}
-						onKeyDown={(event) => {
-							const functionSignature = "TodoListItem.tsx@onKeyDown()";
-							if (event.key === "Enter") {
-								event.preventDefault();
-								const formElement = document.getElementById(
-									editTodoFormId,
-								) as HTMLFormElement | null;
-								if (formElement === null) {
-									console.error(
-										functionSignature,
-										"Could not find form element in DOM!",
-									);
-									return;
+							}}
+							onKeyDown={(event) => {
+								const functionSignature = "TodoListItem.tsx@onKeyDown()";
+								if (event.key === "Enter") {
+									event.preventDefault();
+									const formElement = document.getElementById(
+										editTodoFormId,
+									) as HTMLFormElement | null;
+									if (formElement === null) {
+										console.error(
+											functionSignature,
+											"Could not find form element in DOM!",
+										);
+										return;
+									}
+									const formData = new FormData(formElement);
+									editTodoFormAction(formData);
+								} else if (event.key === "Escape") {
+									event.preventDefault();
+									handleCancelEditingTodo();
 								}
-								const formData = new FormData(formElement);
-								editTodoFormAction(formData);
-							} else if (event.key === "Escape") {
+							}}
+							className="resize-none text-zinc-900 dark:text-zinc-300"
+							rows={1}
+							style={{ minHeight: "unset", maxHeight: "5.4em" }}
+							aria-invalid={!editTodoInputIsValid}
+							aria-label="Edit todo text"
+							autoFocus
+						/>
+						{!editTodoInputIsValid ? (
+							<div className="mt-1.5 pl-1.25 text-sm text-red-500 dark:text-red-400/80">
+								{TODO_TITLE_LENGTH_ERROR_MESSAGE}{" "}
+								{editTodoInputValueIsOverMaxLengthBy > 0
+									? `(You are over by ${editTodoInputValueIsOverMaxLengthBy} characters.)`
+									: null}
+							</div>
+						) : null}
+					</div>
+					<div>
+						<Button type="submit" disabled={!editTodoInputIsValid} size={"lg"}>
+							<IconDeviceFloppy size={16} />
+							Save
+						</Button>
+						<Button
+							variant={"outline"}
+							onClick={(event) => {
 								event.preventDefault();
 								handleCancelEditingTodo();
-							}
-						}}
-						className="resize-none text-zinc-900 dark:text-zinc-300"
-						rows={1}
-						style={{ minHeight: "unset", maxHeight: "5.4em" }}
-						aria-invalid={!editTodoInputIsValid}
-						aria-label="Edit todo text"
-						autoFocus
-					/>
-					{!editTodoInputIsValid ? (
-						<div className="mt-1.5 pl-1.25 text-sm text-red-500 dark:text-red-400/80">
-							{TODO_TITLE_LENGTH_ERROR_MESSAGE}{" "}
-							{editTodoInputValueIsOverMaxLengthBy > 0
-								? `(You are over by ${editTodoInputValueIsOverMaxLengthBy} characters.)`
-								: null}
-						</div>
-					) : null}
-				</div>
-				<div>
-					<Button type="submit" disabled={!editTodoInputIsValid} size={"lg"}>
-						<IconDeviceFloppy size={16} />
-						Save
-					</Button>
-					<Button
-						variant={"outline"}
-						onClick={(event) => {
-							event.preventDefault();
-							handleCancelEditingTodo();
-						}}
-						size={"lg"}
-					>
-						<IconCancel size={16} />
-						Cancel
-					</Button>
-				</div>
-			</form>
+							}}
+							size={"lg"}
+						>
+							<IconCancel size={16} />
+							Cancel
+						</Button>
+					</div>
+				</form>
+			</div>
 		);
 	}
 }
