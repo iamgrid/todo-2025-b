@@ -1,6 +1,14 @@
 {
 	"name": "todo-2025-b",
-	"version": "0.1.0",
+	"private": true,
+	"version": "0.8.0",
+	"author": "Andy Pataki",
+	"homepage": "https://iamgrid.co.uk/todo-2025-b",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iamgrid/todo-2025-b"
+	},
 	"scripts": {
 		"dev": "npm run openBrowser && next dev",
 		"openBrowser": "start http://localhost:3000/todo-2025-b",
