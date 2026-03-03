@@ -49,6 +49,54 @@ test.describe("Todo App", () => {
 		await expect(page.getByText(/buy avocado/i)).toBeVisible();
 	});
 
+	test("color scheme switch works as intended", async ({ page }) => {
+		const colorSchemeButtonSet = page.getByLabel(/color scheme options/i);
+		await expect(colorSchemeButtonSet).toBeVisible();
+
+		const lightModeButton = colorSchemeButtonSet.getByRole("button", {
+			name: /toggle \"light\" color scheme/i,
+		});
+		const darkModeButton = colorSchemeButtonSet.getByRole("button", {
+			name: /toggle \"dark\" color scheme/i,
+		});
+		const systemModeButton = colorSchemeButtonSet.getByRole("button", {
+			name: /toggle \"system preference\" color scheme/i,
+		});
+
+		await expect(lightModeButton).toBeVisible();
+		await expect(darkModeButton).toBeVisible();
+		await expect(systemModeButton).toBeVisible();
+		expect(systemModeButton).toHaveAttribute("aria-pressed", "true");
+
+		function _getHTMLElementColorSchemeClass(page: Page) {
+			return page.evaluate(() => {
+				const htmlElement = document.documentElement;
+				if (htmlElement.classList.contains("light")) {
+					return "light";
+				} else if (htmlElement.classList.contains("dark")) {
+					return "dark";
+				}
+			});
+		}
+
+		const prefersDarkMode = await page.evaluate(() => {
+			return window.matchMedia("(prefers-color-scheme: dark)").matches;
+		});
+
+		// loads with system preference color scheme by default
+		expect(await _getHTMLElementColorSchemeClass(page)).toBe(
+			prefersDarkMode ? "dark" : "light",
+		);
+
+		// can switch to dark mode
+		await darkModeButton.click();
+		expect(darkModeButton).toHaveAttribute("aria-pressed", "true");
+		expect(lightModeButton).toHaveAttribute("aria-pressed", "false");
+		expect(systemModeButton).toHaveAttribute("aria-pressed", "false");
+
+		expect(await _getHTMLElementColorSchemeClass(page)).toBe("dark");
+	});
+
 	test("can add new todos", async ({ page }) => {
 		const inputField = page.getByRole("textbox", { name: /new todo text/i });
 

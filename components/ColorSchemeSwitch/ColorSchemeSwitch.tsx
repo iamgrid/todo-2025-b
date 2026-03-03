@@ -43,7 +43,7 @@ export default function ColorSchemeSwitch() {
 						<ToggleGroupItem
 							key={scheme.colorSchemeValue}
 							value={scheme.colorSchemeValue}
-							aria-label={`Toggle ${scheme.name} color scheme`}
+							aria-label={`Toggle "${scheme.name}" color scheme`}
 						>
 							{scheme.colorSchemeValue === "system" && <IconDeviceLaptop />}
 							{scheme.colorSchemeValue === "light" && <IconSun />}

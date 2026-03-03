@@ -9,13 +9,13 @@ describe("ColorSchemeSwitch component", () => {
 
 		expect(screen.getByText(/color scheme/i)).toBeInTheDocument(); // Label
 		expect(
-			screen.getByLabelText(/toggle system preference color scheme/i),
+			screen.getByLabelText(/toggle \"system preference\" color scheme/i),
 		).toBeInTheDocument(); // System Preference option
 		expect(
-			screen.getByLabelText(/toggle light color scheme/i),
+			screen.getByLabelText(/toggle \"light\" color scheme/i),
 		).toBeInTheDocument(); // Light option
 		expect(
-			screen.getByLabelText(/toggle dark color scheme/i),
+			screen.getByLabelText(/toggle \"dark\" color scheme/i),
 		).toBeInTheDocument(); // Dark option
 	});
 });
