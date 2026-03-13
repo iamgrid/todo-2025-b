@@ -9,6 +9,7 @@ import Footer from "@/components/Footer/Footer";
 import ColorSchemeSwitch from "@/components/ColorSchemeSwitch/ColorSchemeSwitch";
 import LocalStorageWarning from "@/components/LocalStorageWarning/LocalStorageWarning";
 import TodoListSkeleton from "@/components/TodoList/TodoListSkeleton";
+import AboutThisProject from "@/components/AboutThisProject/AboutThisProject";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -161,7 +162,8 @@ function Main() {
 
 	return (
 		<div className="bg-background w-full">
-			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 md:py-6">
+			<div className="relative mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 py-7">
+				<AboutThisProject />
 				<ColorSchemeSwitch />
 				<Header />
 				<LocalStorageWarning isLocalStorageWorking={isLocalStorageWorking} />
