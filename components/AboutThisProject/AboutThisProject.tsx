@@ -94,14 +94,54 @@ function AboutThisProject() {
 				<h1>Cool Parts of the Codebase</h1>
 				<p>
 					<a
-						href="https://github.com/iamgrid/todo-2025-b/blob/master/src/"
+						href="https://github.com/iamgrid/todo-2025-b/blob/main/app/useTodoStore.tsx"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						behavior.js
+						useTodoStore.tsx
 					</a>
-					<span> - </span>See how the NPCs make decisions based on their
-					surroundings and state.
+					<span> - </span>The state for this app is managed in this custom hook,
+					which is built on top of the{" "}
+					<a
+						href="https://www.npmjs.com/package/use-local-storage-state"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="font-normal whitespace-nowrap"
+					>
+						use-local-storage-state
+					</a>{" "}
+					package. The latter allows the app state stored in localStorage to
+					automatically sync between browser tabs, which does not happen if you
+					deal with the native Web Storage API directly in your components.
+				</p>
+				<p>
+					<a
+						href="https://github.com/iamgrid/todo-2025-b/blob/main/components/ColorSchemeSwitch/ColorSchemeSwitch.tsx"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						ColorSchemeSwitch.tsx
+					</a>
+					<span> - </span>Tailwind and{" "}
+					<span className="whitespace-nowrap opacity-100!">shadcn/ui</span> both
+					have foundation-level support for a separate light and dark color
+					scheme, which made implementing this &quot;dark mode&quot; switch a
+					breeze.
+				</p>
+				<p>
+					<a
+						href="https://github.com/iamgrid/todo-2025-b/blob/main/playwright_tests/todoApp.spec.ts"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						todoApp.spec.ts
+					</a>
+					<span> - </span>These apps were my first foray into end-to-end testing
+					with Playwright, and I&apos;m deeply impressed by its capabilities. I
+					was able to cover all important user interactions and edge cases in
+					this single file with very little headache and I can have the entire
+					test suite run through Chromium, Firefox and WebKit in less than 30
+					seconds.
 				</p>
 			</main>
 		</div>

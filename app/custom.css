@@ -69,7 +69,7 @@
 		top: 0;
 		left: 0;
 		z-index: 1000;
-		margin: 14px 0 0 14px;
+		margin: 5px 0 0 3px;
 		/* border: 1px solid #00000000; */
 		--atp-cog-inactive: #00000060;
 		--atp-cog-active: #000000ff;
@@ -77,6 +77,12 @@
 		--atp-bg: #f0f0f0;
 		--atp-border: #00000080;
 		--atp-shadow: #00000080;
+	}
+
+	@media (width >= 48rem) {
+		.atp {
+			margin: 14px 0 0 14px;
+		}
 	}
 	
 	.dark .atp {
@@ -213,7 +219,7 @@
 		font-size: 11px;
 		border: 1px solid var(--atp-border);
 		box-shadow: 0 0 5px var(--atp-shadow);
-		padding: 50px 15px 5px;
+		padding: 55px 15px 4px;
 	}
 
 	.atp--active main {
@@ -224,7 +230,7 @@
 	.atp main p {
 		line-height: 16px;
 		text-align: justify;
-		margin: 6px 0;
+		margin: 12px 0;
 	}
 
 	.atp main p:first-child {

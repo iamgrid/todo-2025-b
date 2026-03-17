@@ -162,9 +162,11 @@ function Main() {
 
 	return (
 		<div className="bg-background w-full">
-			<div className="relative mx-auto min-h-screen w-full max-w-5xl min-w-0 p-2 py-7">
+			<div className="relative px-2 pt-5 md:px-5 md:pt-7">
 				<AboutThisProject />
 				<ColorSchemeSwitch />
+			</div>
+			<div className="mx-auto min-h-screen w-full max-w-5xl min-w-0 pb-7">
 				<Header />
 				<LocalStorageWarning isLocalStorageWorking={isLocalStorageWorking} />
 				<AddTodoForm
