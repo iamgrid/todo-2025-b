@@ -106,7 +106,7 @@ function AboutThisProject() {
 						href="https://www.npmjs.com/package/use-local-storage-state"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="font-normal whitespace-nowrap"
+						className="font-normal! whitespace-nowrap"
 					>
 						use-local-storage-state
 					</a>{" "}
