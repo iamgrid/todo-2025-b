@@ -1,5 +1,5 @@
 "use client";
-import { useId, useMemo, useEffect, useCallback } from "react";
+import { useId, useMemo, useEffect } from "react";
 import AddTodoForm from "../components/AddTodoForm/AddTodoForm";
 
 import useTodoStore from "./useTodoStore";
@@ -10,6 +10,7 @@ import ColorSchemeSwitch from "@/components/ColorSchemeSwitch/ColorSchemeSwitch"
 import LocalStorageWarning from "@/components/LocalStorageWarning/LocalStorageWarning";
 import TodoListSkeleton from "@/components/TodoList/TodoListSkeleton";
 import AboutThisProject from "@/components/AboutThisProject/AboutThisProject";
+import { focusDOMElementById } from "@/lib/helpers";
 
 function Main() {
 	const newTodoInputFieldId = useId();
@@ -53,22 +54,6 @@ function Main() {
 		return { noOfTodos, noOfIncompleteTodos, noOfCompletedTodos };
 	}, [todoStoreTodos]);
 
-	const focusNewTodoInputField = useCallback(() => {
-		const functionSignature = "App.tsx@focusNewTodoInputField()";
-
-		const newTodoInputField = document.getElementById(
-			newTodoInputFieldId,
-		) as HTMLInputElement | null;
-		if (newTodoInputField !== null) {
-			newTodoInputField.focus();
-		} else {
-			console.error(
-				functionSignature,
-				"Could not find new todo input field in the DOM!",
-			);
-		}
-	}, [newTodoInputFieldId]);
-
 	useEffect(() => {
 		const functionSignature = "App.tsx@keyDownHandler useEffect()";
 
@@ -80,7 +65,7 @@ function Main() {
 			if (event.key === "Enter" && event.ctrlKey) {
 				console.log(functionSignature, "Ctrl+Enter detected");
 				event.preventDefault();
-				focusNewTodoInputField();
+				focusDOMElementById(newTodoInputFieldId);
 				window.scrollTo(0, 0);
 			}
 		};
@@ -91,7 +76,7 @@ function Main() {
 			console.log(functionSignature, "Removing global keydown event listener");
 			window.removeEventListener("keydown", keyDownHandler);
 		};
-	}, [focusNewTodoInputField]);
+	}, [newTodoInputFieldId]);
 
 	function handleAddTodo(newTodoText: string) {
 		addTodo(newTodoText);
@@ -172,7 +157,6 @@ function Main() {
 				<AddTodoForm
 					handleAddTodo={handleAddTodo}
 					newTodoInputFieldId={newTodoInputFieldId}
-					focusNewTodoInputField={focusNewTodoInputField}
 				/>
 				{renderTodoList()}
 				<Footer />

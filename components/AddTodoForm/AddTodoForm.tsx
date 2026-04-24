@@ -1,6 +1,7 @@
 "use client";
 import { useId, useState } from "react";
 import {
+	focusDOMElementById,
 	MAX_TODO_TITLE_LENGTH,
 	TODO_TITLE_LENGTH_ERROR_MESSAGE,
 } from "../../lib/helpers";
@@ -13,13 +14,11 @@ import { Kbd, KbdGroup } from "../ui/kbd";
 interface TAddTodoFormProps {
 	handleAddTodo: (text: string) => void;
 	newTodoInputFieldId: string;
-	focusNewTodoInputField(): void;
 }
 
 function AddTodoForm({
 	handleAddTodo,
 	newTodoInputFieldId,
-	focusNewTodoInputField,
 }: TAddTodoFormProps) {
 	const formId = useId();
 	const [todoInputIsValid, setTodoInputIsValid] = useState<boolean>(true);
@@ -78,7 +77,7 @@ function AddTodoForm({
 				functionSignature,
 				"New todo text is empty, returning early...",
 			);
-			focusNewTodoInputField();
+			focusDOMElementById(newTodoInputFieldId);
 			return;
 		}
 
@@ -96,7 +95,7 @@ function AddTodoForm({
 
 		setTodoInputIsValid(true);
 		setTodoInputValueIsOverMaxLengthBy(0);
-		focusNewTodoInputField();
+		focusDOMElementById(newTodoInputFieldId);
 	}
 
 	function renderKeyboardShortcutInfo() {
@@ -157,7 +156,7 @@ function AddTodoForm({
 								newTodoInputField.value = "";
 								setTodoInputIsValid(true);
 								setTodoInputValueIsOverMaxLengthBy(0);
-								focusNewTodoInputField();
+								focusDOMElementById(newTodoInputFieldId);
 							}
 						}
 					}}

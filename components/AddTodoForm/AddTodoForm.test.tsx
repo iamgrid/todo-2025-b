@@ -26,7 +26,6 @@ describe("AddTodoForm component", () => {
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={jest.fn()}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -39,7 +38,6 @@ describe("AddTodoForm component", () => {
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={jest.fn()}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -53,7 +51,6 @@ describe("AddTodoForm component", () => {
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={jest.fn()}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -75,7 +72,6 @@ describe("AddTodoForm component", () => {
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={jest.fn()}
 			/>,
 		);
 		const addButton = screen.getByRole("button", { name: /add/i });
@@ -90,7 +86,6 @@ describe("AddTodoForm component", () => {
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={jest.fn()}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -104,12 +99,10 @@ describe("AddTodoForm component", () => {
 	});
 
 	test("resets input and validation state on Escape key press", async () => {
-		const mockFocusNewTodoInputField = jest.fn();
 		render(
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
 				newTodoInputFieldId={newTodoInputFieldId}
-				focusNewTodoInputField={mockFocusNewTodoInputField}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -129,6 +122,7 @@ describe("AddTodoForm component", () => {
 				`${TODO_TITLE_LENGTH_ERROR_MESSAGE} (You are over by 5 characters.)`,
 			),
 		).not.toBeInTheDocument();
-		expect(mockFocusNewTodoInputField).toHaveBeenCalled();
+
+		expect(inputField).toHaveFocus();
 	});
 });

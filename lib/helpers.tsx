@@ -160,3 +160,20 @@ export function shortenPhrase(
 		return rawShortStr2;
 	}
 }
+
+export function focusDOMElementById(elementId: string): void {
+	const functionSignature = "helpers.tsx@focusDOMElementById()";
+	// console.log(
+	// 	functionSignature,
+	// 	`Attempting to focus field with id "${elementId}"...`,
+	// );
+	const fieldEl = document.getElementById(elementId) as HTMLInputElement | null;
+	if (fieldEl) {
+		fieldEl.focus();
+	} else {
+		console.warn(
+			functionSignature,
+			`DOM element with id "${elementId}" could not be found.`,
+		);
+	}
+}
