@@ -7,7 +7,7 @@ import {
 } from "@/lib/helpers";
 import userEvent from "@testing-library/user-event";
 
-const newTodoInputFieldId = "test-new-todo-input-field-id";
+const newTodoInputFieldRef = { current: null };
 
 describe("AddTodoForm component", () => {
 	beforeAll(() => {
@@ -25,7 +25,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -37,7 +37,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -50,7 +50,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -71,7 +71,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const addButton = screen.getByRole("button", { name: /add/i });
@@ -85,7 +85,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={mockHandleAddTodo}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);
@@ -102,7 +102,7 @@ describe("AddTodoForm component", () => {
 		render(
 			<AddTodoForm
 				handleAddTodo={jest.fn()}
-				newTodoInputFieldId={newTodoInputFieldId}
+				newTodoInputFieldRef={newTodoInputFieldRef}
 			/>,
 		);
 		const inputField = screen.getByPlaceholderText(/what needs to be done\?/i);

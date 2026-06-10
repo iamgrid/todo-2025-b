@@ -1,5 +1,5 @@
 "use client";
-import { useId, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import AddTodoForm from "../components/AddTodoForm/AddTodoForm";
 
 import useTodoStore from "./useTodoStore";
@@ -10,10 +10,10 @@ import ColorSchemeSwitch from "@/components/ColorSchemeSwitch/ColorSchemeSwitch"
 import LocalStorageWarning from "@/components/LocalStorageWarning/LocalStorageWarning";
 import TodoListSkeleton from "@/components/TodoList/TodoListSkeleton";
 import AboutThisProject from "@/components/AboutThisProject/AboutThisProject";
-import { focusDOMElementById } from "@/lib/helpers";
+import { focusDOMElementByRef } from "@/lib/helpers";
 
 function Main() {
-	const newTodoInputFieldId = useId();
+	const newTodoInputFieldRef = useRef<HTMLTextAreaElement | null>(null);
 	const {
 		todoStoreTodos,
 		addTodo,
@@ -65,7 +65,7 @@ function Main() {
 			if (event.key === "Enter" && event.ctrlKey) {
 				console.log(functionSignature, "Ctrl+Enter detected");
 				event.preventDefault();
-				focusDOMElementById(newTodoInputFieldId);
+				focusDOMElementByRef(newTodoInputFieldRef);
 				window.scrollTo(0, 0);
 			}
 		};
@@ -76,7 +76,7 @@ function Main() {
 			console.log(functionSignature, "Removing global keydown event listener");
 			window.removeEventListener("keydown", keyDownHandler);
 		};
-	}, [newTodoInputFieldId]);
+	}, [newTodoInputFieldRef]);
 
 	function handleAddTodo(newTodoText: string) {
 		addTodo(newTodoText);
@@ -156,7 +156,7 @@ function Main() {
 				<LocalStorageWarning isLocalStorageWorking={isLocalStorageWorking} />
 				<AddTodoForm
 					handleAddTodo={handleAddTodo}
-					newTodoInputFieldId={newTodoInputFieldId}
+					newTodoInputFieldRef={newTodoInputFieldRef}
 				/>
 				{renderTodoList()}
 				<Footer />

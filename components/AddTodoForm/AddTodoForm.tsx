@@ -1,7 +1,7 @@
 "use client";
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import {
-	focusDOMElementById,
+	focusDOMElementByRef,
 	MAX_TODO_TITLE_LENGTH,
 	TODO_TITLE_LENGTH_ERROR_MESSAGE,
 } from "../../lib/helpers";
@@ -13,14 +13,15 @@ import { Kbd, KbdGroup } from "../ui/kbd";
 
 interface TAddTodoFormProps {
 	handleAddTodo: (text: string) => void;
-	newTodoInputFieldId: string;
+	newTodoInputFieldRef: React.RefObject<HTMLTextAreaElement | null>;
 }
 
 function AddTodoForm({
 	handleAddTodo,
-	newTodoInputFieldId,
+	newTodoInputFieldRef,
 }: TAddTodoFormProps) {
-	const formId = useId();
+	const formRef = useRef<HTMLFormElement | null>(null);
+	const newTodoInputFieldId = useId();
 	const [todoInputIsValid, setTodoInputIsValid] = useState<boolean>(true);
 	const [todoInputValueIsOverMaxLengthBy, setTodoInputValueIsOverMaxLengthBy] =
 		useState<number>(0);
@@ -53,10 +54,21 @@ function AddTodoForm({
 			Array.from(formData.entries()),
 		);
 
-		if (!formData.has(newTodoInputFieldId)) {
+		const newTodoInputFieldKey = formData.keys().next().value;
+
+		if (typeof newTodoInputFieldKey === "undefined") {
 			console.error(
 				functionSignature,
-				`Form data does not have expected field with ID '${newTodoInputFieldId}'!`,
+				"Form data does not contain any keys!",
+				Array.from(formData.entries()),
+			);
+			return;
+		}
+
+		if (!formData.has(newTodoInputFieldKey)) {
+			console.error(
+				functionSignature,
+				`Form data does not have expected field with ID '${newTodoInputFieldKey}'!`,
 				Array.from(formData.entries()),
 			);
 			return;
@@ -70,22 +82,21 @@ function AddTodoForm({
 			return;
 		}
 
-		const newTodoText = (formData.get(newTodoInputFieldId) as string).trim();
+		const newTodoText = (formData.get(newTodoInputFieldKey) as string).trim();
 
 		if (newTodoText.length === 0) {
 			console.warn(
 				functionSignature,
 				"New todo text is empty, returning early...",
 			);
-			focusDOMElementById(newTodoInputFieldId);
+			focusDOMElementByRef(newTodoInputFieldRef);
 			return;
 		}
 
 		handleAddTodo(newTodoText);
 
-		const formElement = document.getElementById(
-			formId,
-		) as HTMLFormElement | null;
+		const formElement = formRef.current;
+
 		if (formElement === null) {
 			console.error(functionSignature, "Could not find form element in DOM!");
 			return;
@@ -95,7 +106,7 @@ function AddTodoForm({
 
 		setTodoInputIsValid(true);
 		setTodoInputValueIsOverMaxLengthBy(0);
-		focusDOMElementById(newTodoInputFieldId);
+		focusDOMElementByRef(newTodoInputFieldRef);
 	}
 
 	function renderKeyboardShortcutInfo() {
@@ -114,7 +125,7 @@ function AddTodoForm({
 
 	return (
 		<form
-			id={formId}
+			ref={formRef}
 			className="new-todo-form mb-3 px-2"
 			action={submitNewTodoAction}
 			noValidate
@@ -123,6 +134,7 @@ function AddTodoForm({
 				<Textarea
 					id={newTodoInputFieldId}
 					name={newTodoInputFieldId}
+					ref={newTodoInputFieldRef}
 					className="resize-none pb-1.5 text-zinc-900 dark:text-zinc-300"
 					placeholder="What needs to be done?"
 					aria-label="New todo text"
@@ -135,9 +147,7 @@ function AddTodoForm({
 						const functionSignature = "AddTodoForm.tsx@onKeyDown()";
 						if (event.key === "Enter") {
 							event.preventDefault();
-							const formElement = document.getElementById(
-								formId,
-							) as HTMLFormElement | null;
+							const formElement = formRef.current;
 							if (formElement === null) {
 								console.error(
 									functionSignature,
@@ -149,21 +159,17 @@ function AddTodoForm({
 							submitNewTodoAction(formData);
 						} else if (event.key === "Escape") {
 							event.preventDefault();
-							const newTodoInputField = document.getElementById(
-								newTodoInputFieldId,
-							) as HTMLInputElement | null;
+							const newTodoInputField = newTodoInputFieldRef.current;
 							if (newTodoInputField !== null) {
 								newTodoInputField.value = "";
 								setTodoInputIsValid(true);
 								setTodoInputValueIsOverMaxLengthBy(0);
-								focusDOMElementById(newTodoInputFieldId);
+								focusDOMElementByRef(newTodoInputFieldRef);
 							}
 						}
 					}}
 					onBlur={() => {
-						const newTodoInputField = document.getElementById(
-							newTodoInputFieldId,
-						) as HTMLInputElement | null;
+						const newTodoInputField = newTodoInputFieldRef.current;
 						if (newTodoInputField !== null) {
 							if (newTodoInputField.value.trim().length === 0) {
 								newTodoInputField.value = "";

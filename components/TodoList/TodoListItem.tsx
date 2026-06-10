@@ -1,6 +1,6 @@
 import { TTodo } from "@/app/useTodoStore";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import FriendlyDate from "../shared/FriendlyDate";
 import { ButtonGroup } from "../ui/button-group";
 import { Button } from "../ui/button";
@@ -43,8 +43,11 @@ function TodoListItem({
 	handleDeleteTodoProper,
 	triggerFriendlyDateRerender,
 }: TTodoListItemProps) {
+	const checkboxRef = useRef<HTMLInputElement | null>(null);
 	const checkboxId = useId();
+	const editTodoFormRef = useRef<HTMLFormElement | null>(null);
 	const editTodoFormId = useId();
+	const editTodoInputFieldRef = useRef<HTMLTextAreaElement | null>(null);
 	const editTodoInputFieldId = useId();
 
 	const [editTodoInputIsValid, setEditTodoInputIsValid] =
@@ -70,10 +73,22 @@ function TodoListItem({
 	function editTodoFormAction(formData: FormData) {
 		const functionSignature = "TodoListItem.tsx@editTodoFormAction()";
 		console.log(functionSignature, Array.from(formData.entries()));
-		if (!formData.has(editTodoInputFieldId)) {
+
+		const editTodoInputFieldKey = formData.keys().next().value;
+
+		if (typeof editTodoInputFieldKey === "undefined") {
 			console.error(
 				functionSignature,
-				`Form data does not have expected field with ID '${editTodoInputFieldId}'!`,
+				"Form data does not contain any keys!",
+				Array.from(formData.entries()),
+			);
+			return;
+		}
+
+		if (!formData.has(editTodoInputFieldKey)) {
+			console.error(
+				functionSignature,
+				`Form data does not have expected field with key '${editTodoInputFieldKey}'!`,
 				Array.from(formData.entries()),
 			);
 			return;
@@ -87,7 +102,18 @@ function TodoListItem({
 			return;
 		}
 
-		const newTodoText = (formData.get(editTodoInputFieldId) as string).trim();
+		const newTodoTextFieldKey = formData.keys().next().value;
+
+		if (typeof newTodoTextFieldKey === "undefined") {
+			console.error(
+				functionSignature,
+				"Form data does not contain a second key for the new todo text field!",
+				Array.from(formData.entries()),
+			);
+			return;
+		}
+
+		const newTodoText = (formData.get(newTodoTextFieldKey) as string).trim();
 
 		if (newTodoText.length === 0) {
 			console.warn(
@@ -163,6 +189,7 @@ function TodoListItem({
 				<Checkbox
 					id={checkboxId}
 					name={checkboxId}
+					ref={checkboxRef}
 					checked={todo.isCompleted}
 					aria-label={`Toggle todo completion: ${shortenPhrase(todo.text, 20, true, true)}`}
 					// tabIndex={listItemIndex}
@@ -228,7 +255,9 @@ function TodoListItem({
 			<div role="listitem" className="border-t first:border-t-0">
 				<form
 					noValidate
-					id={editTodoFormId}
+					// id={editTodoFormId}
+					name={editTodoFormId}
+					ref={editTodoFormRef}
 					action={editTodoFormAction}
 					className="grid grid-rows-[auto_auto] items-center gap-3 px-2 pt-4 pb-1.5 md:grid-cols-[1fr_auto]"
 					role="form"
@@ -238,6 +267,7 @@ function TodoListItem({
 							defaultValue={todo.text}
 							id={editTodoInputFieldId}
 							name={editTodoInputFieldId}
+							ref={editTodoInputFieldRef}
 							onChange={(event) => {
 								const val = event.target.value.trim();
 								if (val.length === 0 || val.length > MAX_TODO_TITLE_LENGTH) {
@@ -258,9 +288,7 @@ function TodoListItem({
 								const functionSignature = "TodoListItem.tsx@onKeyDown()";
 								if (event.key === "Enter") {
 									event.preventDefault();
-									const formElement = document.getElementById(
-										editTodoFormId,
-									) as HTMLFormElement | null;
+									const formElement = editTodoFormRef.current;
 									if (formElement === null) {
 										console.error(
 											functionSignature,

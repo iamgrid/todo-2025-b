@@ -161,19 +161,18 @@ export function shortenPhrase(
 	}
 }
 
-export function focusDOMElementById(elementId: string): void {
-	const functionSignature = "helpers.tsx@focusDOMElementById()";
-	// console.log(
-	// 	functionSignature,
-	// 	`Attempting to focus field with id "${elementId}"...`,
-	// );
-	const fieldEl = document.getElementById(elementId) as HTMLInputElement | null;
-	if (fieldEl) {
-		fieldEl.focus();
+export function focusDOMElementByRef(
+	elementRef: React.RefObject<HTMLElement | null>,
+): void {
+	const functionSignature = "helpers.tsx@focusDOMElementByRef()";
+	console.log(
+		functionSignature,
+		`Attempting to focus field with ref...`,
+		elementRef,
+	);
+	if (elementRef.current !== null) {
+		elementRef.current.focus();
 	} else {
-		console.warn(
-			functionSignature,
-			`DOM element with id "${elementId}" could not be found.`,
-		);
+		console.warn(functionSignature, `DOM element ref.current is null.`);
 	}
 }
