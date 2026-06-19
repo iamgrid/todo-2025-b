@@ -16,7 +16,7 @@ export interface TTodo extends TNewTodo {
 const defaultTodos: TTodo[] = [
 	{
 		id: 1,
-		text: "Buy avocado",
+		text: "Buy avocado 🥑",
 		isCompleted: false,
 		createdAt: "2026-01-01T10:00:00.000Z",
 		lastUpdatedAt: null,
@@ -24,7 +24,7 @@ const defaultTodos: TTodo[] = [
 	},
 	{
 		id: 2,
-		text: "Do 50 push-ups",
+		text: "Do 50 push-ups 💪",
 		isCompleted: false,
 		createdAt: "2026-01-02T11:00:00.000Z",
 		lastUpdatedAt: null,
