@@ -62,8 +62,8 @@ function Main() {
 		const keyDownHandler = (event: KeyboardEvent) => {
 			const functionSignature = "App.tsx@keyDownHandler()";
 			// console.log(functionSignature, "Key down event detected");
-			if (event.key === "Enter" && event.ctrlKey) {
-				console.log(functionSignature, "Ctrl+Enter detected");
+			if ((event.key === "Enter" || event.key === " ") && event.ctrlKey) {
+				console.log(functionSignature, "Focus hotkey detected");
 				event.preventDefault();
 				focusDOMElementByRef(newTodoInputFieldRef);
 				window.scrollTo(0, 0);

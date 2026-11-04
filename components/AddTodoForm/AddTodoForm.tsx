@@ -116,7 +116,7 @@ function AddTodoForm({
 				<KbdGroup>
 					<Kbd>Ctrl</Kbd>
 					<span>+</span>
-					<Kbd>Enter</Kbd>
+					<Kbd>Space / Enter</Kbd>
 				</KbdGroup>{" "}
 				to focus this field.
 			</span>
